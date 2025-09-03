@@ -65,7 +65,7 @@
   \newtheorem{remark}[theorem]{Remark}
 
 \title{CPSC-354 Report}
-\author{Your Name  \\ Chapman University}
+\author{Mitchell Toney  \\ Chapman University}
 
 \date{\today} 
 
@@ -83,8 +83,21 @@
 
 \section{Week by Week}\label{homework}
 
-\subsection{Week 1}
+\subsection{Week 1: HW1}
+The $MU$ puzzle is a puzzle created by Douglas Hofstadter. It consists of four rules that can be applied to a string $MI$.
+\[
+\begin{array}{l}
+1.\ xI \rightarrow xIU \\
+2.\ Mx \rightarrow Mxx \\
+3.\ xIIIy \rightarrow xUy \\
+4.\ xUUy \rightarrow xy 
+\end{array}
+\]
+When first approaching this puzzle, the first strategy that came to mind was to take advantage of rule number 2 to keep duplicating the I's until there is a multiple of three, then using rules 3 and 4 to get rid of the I's and leave a remaining U.
 
+The issue with this is that $2^{n}\bmod 3$ will never equal 0, it infinitely cycles between equaling 1 and 2, and without being able to get rid of all the I's, which would require them being a multiple of 3, you will never be able to get MU.
+
+Thus, the puzzle is not solvable.
 \section{Essay}
 
 \section{Evidence of Participation}
