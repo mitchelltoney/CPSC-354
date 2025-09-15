@@ -309,6 +309,120 @@ $A=\{a,b,c\},\ R=\{(a,b),(a,c),(b,b),(c,c)\}$
 
 \end{center}
 
+\subsection{Week 3: HW3}
+
+\subsubsection{Exercise 5}
+
+Consider rewrite rules:
+\begin{align*}
+ab &\rightarrow ba \\
+ba &\rightarrow ab \\
+aa &\rightarrow\\
+b &\rightarrow
+\end{align*}
+
+ 
+\subsubsection*{Example Reductions}
+
+
+\textbf{Reducing \texttt{abba}:}
+\begin{align*}
+abba &\rightarrow baba \quad \text{(using } ab \rightarrow ba\text{)} \\
+baba &\rightarrow bbaa \quad \text{(using } ba \rightarrow ab\text{)} \\
+bbaa &\rightarrow baa \quad \text{(using } b \rightarrow \varepsilon\text{)} \\
+baa &\rightarrow aba \quad \text{(using } ba \rightarrow ab\text{)} \\
+aba &\rightarrow baa \quad \text{(using } ab \rightarrow ba\text{)}
+\end{align*}
+There is an infinite loop between \texttt{aba} and \texttt{baa}.
+
+\textbf{Reducing \texttt{bababa}:}
+\begin{align*}
+bababa &\rightarrow ababab \quad \text{(using } ba \rightarrow ab\text{)} \\
+ababab &\rightarrow baabab \quad \text{(using } ab \rightarrow ba\text{)} \\
+baabab &\rightarrow ababab \quad \text{(using } ba \rightarrow ab\text{)}
+\end{align*}
+This is an infinite loop between \texttt{ababab} and \texttt{baabab}.
+
+\paragraph{Why the ARS is not terminating}
+
+The ARS is not terminating because the rules $ab \rightarrow ba$ and $ba \rightarrow ab$ create infinite cycles. These rules allow us to swap adjacent $a$ and $b$ characters indefinitely, leading to non-terminating reduction sequences.
+
+\paragraph{Non-equivalent strings}
+
+Two strings that are not equivalent: \texttt{a} and \texttt{aa}. 
+
+The string \texttt{a} cannot be reduced further, while \texttt{aa} reduces to nothing using the rule $aa \rightarrow $. Since $nothing \neq a$, these strings are in different equivalence classes.
+
+\paragraph{Equivalence classes}
+
+The equivalence relation $\leftrightarrow^*$ has infinitely many equivalence classes. Each equivalence class can be characterized by the number of $a$'s modulo 2 and the number of $b$'s modulo 1.
+
+The equivalence classes are:
+\begin{itemize}
+\item $[\varepsilon]$: strings with even number of $a$'s and no $b$'s
+\item $[a]$: strings with odd number of $a$'s and no $b$'s  
+\item $[b]$: strings with any number of $a$'s and at least one $b$
+\end{itemize}
+
+The normal forms are: $\varepsilon$, $a$, and $b$.
+
+\paragraph{Modifying the ARS to be terminating}
+
+To make the ARS terminating without changing equivalence classes, we can remove the symmetric rules and keep only one direction:
+
+\begin{align*}
+ba &\rightarrow ab \\
+aa &\rightarrow \varepsilon \\
+b &\rightarrow \varepsilon
+\end{align*}
+
+This eliminates the infinite cycles while preserving the same equivalence relation.
+
+\subsubsection{Semantic question}
+
+
+\textbf{Parity of $a$'s:} "Does this string contain an odd number of $a$'s?" \\
+Answer: Yes if the normal form is $a$, No if the normal form is $\varepsilon$.
+
+\subsubsection*{Exercise 5b}
+
+Consider rewrite rules:
+\begin{align*}
+ab &\rightarrow ba \\
+ba &\rightarrow ab \\
+aa &\rightarrow a \\
+b &\rightarrow
+\end{align*}
+
+\textbf{Reducing \texttt{abba}:}
+\begin{align*}
+abba &\rightarrow baba \\
+baba &\rightarrow abba
+\end{align*}
+
+\textbf{Reducing \texttt{bababa}:}
+\begin{align*}
+bababa &\rightarrow ababab \\
+ababab &\rightarrow bababa
+\end{align*}
+
+\textbf{Why not terminating.} The symmetric swaps $ab \leftrightarrow ba$ allow infinite rewriting.
+
+\textbf{Non-equivalent strings.} $a$ and $\varepsilon$ are not equivalent.
+
+\textbf{Equivalence classes.} Exactly two: $[\varepsilon]$ (no $a$'s; all $b$'s delete) and $[a]$ (at least one $a$; since $aa \sim a$).
+Normal forms (under a terminating orientation): $\varepsilon$ and $a$.
+
+\textbf{Terminating variant.}
+\begin{align*}
+ba &\rightarrow ab \\
+aa &\rightarrow a \\
+b &\rightarrow
+\end{align*}
+
+
+This gives a complete semantics to the ARS: it computes the invariant for any input string.
+
 \section{Essay}
 
 \section{Evidence of Participation}
