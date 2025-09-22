@@ -423,6 +423,79 @@ b &\rightarrow
 
 This gives a complete semantics to the ARS: it computes the invariant for any input string.
 
+\subsection{Week 4: HW4}
+
+\subsubsection{HW4.1: Termination Proof for GCD}
+
+Consider the following algorithm:
+
+\begin{verbatim}
+while b != 0:
+    temp = b
+    b = a mod b
+    a = temp
+return a
+\end{verbatim}
+
+\textbf{Assume:} Work over integers with Euclidean division: inputs $a\in\mathbb Z$, $b\in\mathbb N$; if $b\neq 0$ then $0\le a\bmod b<b$.
+
+\textbf{Model:} States $A=\mathbb Z\times\mathbb N$. One step $(a,b)\to(a',b')$ is one loop iteration.
+
+\textbf{Measure:} $\phi:A\to\mathbb N,\;\phi(a,b)=b$.
+
+\textbf{Show:} $(a,b)\to(a',b') \Rightarrow \phi(a',b')<\phi(a,b)$.
+
+If $b\neq 0$, the update sets $b'=a\bmod b$ with $0\le b'<b$; hence $\phi(a',b')=b'<b=\phi(a,b)$.
+
+$\phi$ strictly decreases in $\mathbb N$, so there is no infinite $\to$-chain; eventually $b=0$ and the loop stops. Thus the algorithm terminates under the stated conditions.
+
+\subsubsection{HW4.2: Termination Proof for Merge Sort}
+
+Consider the following fragment of an implementation of merge sort:
+
+\begin{verbatim}
+function merge_sort(arr, left, right):
+    if left >= right:
+        return
+    mid = (left + right) / 2
+    merge_sort(arr, left, mid)
+    merge_sort(arr, mid+1, right)
+    merge(arr, left, mid, right)
+\end{verbatim}
+
+Prove that 
+
+$\phi(\texttt{left}, \texttt{right}) = \texttt{right} - \texttt{left} + 1$ 
+
+is a measure function for merge\_sort.
+
+\textbf{Show:} For
+
+\begin{verbatim}
+merge_sort(arr, left, right):
+  if left >= right: return
+    mid = floor((left + right)/2)
+  merge_sort(arr, left, mid)
+  merge_sort(arr, mid+1, right)
+  merge(arr, left, mid, right)
+\end{verbatim}
+
+the function $\phi(\text{left},\text{right})=\text{right}-\text{left}+1$ is a strictly decreasing measure, hence \texttt{merge\_sort} terminates.
+
+\textbf{Assume:} \texttt{left,right}$\in\mathbb{Z}$ with $0\le \text{left}\le \text{right}<|arr|$. Division for \texttt{mid} is integer. If \texttt{left < right}, then $\text{left}\le \text{mid}<\text{right}$. \texttt{merge} makes no recursive calls.
+
+\textbf{Model:} States are intervals $A=\{(l,r)\in\mathbb Z^2\mid l\le r\}$. A "step" is a recursive edge from $(l,r)$ (with $l<r$) to each child $(l,\text{mid})$ and $(\text{mid}+1,r)$.
+
+\textbf{Measure:} $\phi:A\to\mathbb N,\quad \phi(l,r)=r-l+1$.
+
+Let $l<r$ and $\text{mid}=\lfloor(l+r)/2\rfloor$ so $l\le \text{mid}<r$.
+
+First child: $\phi(l,\text{mid})=\text{mid}-l+1\le (r-1)-l+1=r-l=\phi(l,r)-1<\phi(l,r)$.
+
+Second child: $\phi(\text{mid}+1,r)=r-\text{mid}\le r-l=\phi(l,r)-1<\phi(l,r)$.
+
+Every recursive edge strictly decreases $\phi$ in $\mathbb N$, which is well-founded. Thus no infinite recursion is possible; the calls bottom out at states with $\phi\in\{0,1\}$ (i.e., \texttt{left $\geq$ right}), where the function returns. Therefore $\phi(\text{left},\text{right})=\text{right}-\text{left}+1$ is a valid measure and \texttt{merge\_sort} terminates under the stated conditions.
+
 \section{Essay}
 
 \section{Evidence of Participation}
