@@ -480,6 +480,7 @@ merge_sort(arr, left, right):
   merge(arr, left, mid, right)
 \end{verbatim}
 
+
 the function $\phi(\text{left},\text{right})=\text{right}-\text{left}+1$ is a strictly decreasing measure, hence \texttt{merge\_sort} terminates.
 
 \textbf{Assume:} \texttt{left,right}$\in\mathbb{Z}$ with $0\le \text{left}\le \text{right}<|arr|$. Division for \texttt{mid} is integer. If \texttt{left < right}, then $\text{left}\le \text{mid}<\text{right}$. \texttt{merge} makes no recursive calls.
@@ -495,6 +496,27 @@ First child: $\phi(l,\text{mid})=\text{mid}-l+1\le (r-1)-l+1=r-l=\phi(l,r)-1<\ph
 Second child: $\phi(\text{mid}+1,r)=r-\text{mid}\le r-l=\phi(l,r)-1<\phi(l,r)$.
 
 Every recursive edge strictly decreases $\phi$ in $\mathbb N$, which is well-founded. Thus no infinite recursion is possible; the calls bottom out at states with $\phi\in\{0,1\}$ (i.e., \texttt{left $\geq$ right}), where the function returns. Therefore $\phi(\text{left},\text{right})=\text{right}-\text{left}+1$ is a valid measure and \texttt{merge\_sort} terminates under the stated conditions.
+
+\subsection{Week 5: HW5}
+
+\subsubsection{Lambda Calculus Workout Evaluation (Corrected)}
+
+Evaluate: $(\lambda f.\lambda x.\,f(f\,x))(\lambda g.\lambda y.\,g(g(g\,y)))$
+
+Use $\alpha$-renaming to avoid capture.
+
+\[
+\begin{aligned}
+(\lambda f.\lambda x.\,f(f\,x))(\lambda g.\lambda y.\,g(g(g\,y)))
+&\to \lambda x.\,(\lambda g.\lambda y.\,g(g(g\,y)))\big((\lambda g.\lambda y.\,g(g(g\,y)))\,x\big)\\
+(\lambda g.\lambda y.\,g(g(g\,y)))\,x
+&\to \lambda y.\,x(x(x\,y)) \quad (\text{$\alpha$-rename inner } y)\\
+\Rightarrow\ \lambda x.\,(\lambda g.\lambda y.\,g(g(g\,y)))\,(\lambda y.\,x(x(x\,y)))
+&\to \lambda x.\lambda y.\,x^9 y.
+\end{aligned}
+\]
+
+Hence the normal form is $\lambda f.\lambda x.\,f^{9}x$ (Church numeral $9$).
 
 \section{Essay}
 
