@@ -518,6 +518,85 @@ Use $\alpha$-renaming to avoid capture.
 
 Hence the normal form is $\lambda f.\lambda x.\,f^{9}x$ (Church numeral $9$).
 
+\subsection{Week 6: HW6}
+
+\subsubsection{Fixed Point Combinator Exercise}
+
+Compute \texttt{fact 3} following the computation rules for \texttt{fix}, \texttt{let}, and \texttt{let rec}:
+
+\textbf{Given:}
+\[
+E_0 \;=\; \mathsf{let\ rec\ fact} = \lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * \mathsf{fact}\,(n-1)\;\mathsf{in\ fact}\;3
+\]
+
+\textbf{Abbreviations:}
+\[
+\mathsf{F} \;\overset{\mathrm{def}}{=}\; \lambda f.\,\lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * f\,(n-1)
+\qquad\qquad
+\mathsf{FACT} \;\overset{\mathrm{def}}{=}\; \mathsf{fix}\,\mathsf{F}
+\]
+
+\textbf{Computation:} 
+\begingroup
+\setlength{\jot}{4pt}
+\begin{align*}
+E_0
+&\xrightarrow{\text{def of let rec}}
+\mathsf{let\ fact} = \mathsf{fix}(\lambda f.\lambda n.\mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * f\,(n-1))\;\mathsf{in\ fact}\,3\\
+&\xrightarrow{\text{def of let}}
+(\lambda \mathsf{fact}.\; \mathsf{fact}\,3)\; \mathsf{fix}(\lambda f.\lambda n.\mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * f\,(n-1))\\
+&\xrightarrow{\beta}
+\big(\mathsf{fix}(\lambda f.\lambda n.\mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * f\,(n-1))\big)\;3\\
+&\equiv \mathsf{FACT}\,3\\
+&\xrightarrow{\text{def of fix}}
+(\mathsf{F}\,\mathsf{FACT})\;3\\
+&\xrightarrow{\beta}
+(\lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * \mathsf{FACT}\,(n-1))\;3\\
+&\xrightarrow{\beta}
+\mathsf{if}\;3=0\;\mathsf{then}\;1\;\mathsf{else}\;3 * \mathsf{FACT}\,(3-1)\\
+&\xrightarrow{\text{def of if}}
+3 * \mathsf{FACT}\,(3-1)\\
+&\xrightarrow{\text{arith}}
+3 * \mathsf{FACT}\,2\\[4pt]
+&\xrightarrow{\text{def of fix}}
+3 * (\mathsf{F}\,\mathsf{FACT})\;2\\
+&\xrightarrow{\beta}
+3 * (\lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * \mathsf{FACT}\,(n-1))\;2\\
+&\xrightarrow{\beta}
+3 * \mathsf{if}\;2=0\;\mathsf{then}\;1\;\mathsf{else}\;2 * \mathsf{FACT}\,(2-1)\\
+&\xrightarrow{\text{def of if}}
+3 * (2 * \mathsf{FACT}\,(2-1))\\
+&\xrightarrow{\text{arith}}
+3 * (2 * \mathsf{FACT}\,1)\\[4pt]
+&\xrightarrow{\text{def of fix}}
+3 * \big(2 * (\mathsf{F}\,\mathsf{FACT})\;1\big)\\
+&\xrightarrow{\beta}
+3 * \big(2 * (\lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * \mathsf{FACT}\,(n-1))\;1\big)\\
+&\xrightarrow{\beta}
+3 * \big(2 * \mathsf{if}\;1=0\;\mathsf{then}\;1\;\mathsf{else}\;1 * \mathsf{FACT}\,(1-1)\big)\\
+&\xrightarrow{\text{def of if}}
+3 * \big(2 * (1 * \mathsf{FACT}\,(1-1))\big)\\
+&\xrightarrow{\text{arith}}
+3 * \big(2 * (1 * \mathsf{FACT}\,0)\big)\\[4pt]
+&\xrightarrow{\text{def of fix}}
+3 * \big(2 * (1 * (\mathsf{F}\,\mathsf{FACT})\;0)\big)\\
+&\xrightarrow{\beta}
+3 * \big(2 * (1 * (\lambda n.\; \mathsf{if}\;n=0\;\mathsf{then}\;1\;\mathsf{else}\;n * \mathsf{FACT}\,(n-1))\;0)\big)\\
+&\xrightarrow{\beta}
+3 * \big(2 * (1 * \mathsf{if}\;0=0\;\mathsf{then}\;1\;\mathsf{else}\;0 * \mathsf{FACT}\,(0-1))\big)\\
+&\xrightarrow{\text{def of if}}
+3 * \big(2 * (1 * 1)\big)\\
+&\xrightarrow{\text{arith}}
+3 * (2 * 1)
+\;\xrightarrow{\text{arith}}\;
+3 * 2
+\;\xrightarrow{\text{arith}}\;
+6\;.
+\end{align*}
+\endgroup
+
+\textbf{Result:} \texttt{fact 3 = 6}
+
 \section{Essay}
 
 \section{Evidence of Participation}
