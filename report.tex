@@ -27,6 +27,27 @@
 \usepackage{caption}
 \captionsetup[figure]{labelformat=empty}
 \usetikzlibrary{arrows.meta,positioning}
+\usepackage[edges]{forest}
+
+% Simple styling for parse trees
+\forestset{
+  default preamble={
+    for tree={
+      draw,
+      rounded corners,
+      align=center,
+      parent anchor=south,
+      child anchor=north,
+      l sep+=10pt,
+      s sep+=10pt,
+      inner sep=2pt,
+      edge={-latex}
+    }
+  }
+}
+
+\newcommand{\tterm}[1]{\texttt{#1}}
+
 \tikzset{
   >=Stealth,
   obj/.style = {circle, draw, minimum size=8mm, inner sep=0pt, font=\small},
@@ -596,6 +617,209 @@ E_0
 \endgroup
 
 \textbf{Result:} \texttt{fact 3 = 6}
+
+\subsection{Week 7: Parse Trees Exercise}
+
+\subsubsection{String: \(\;2+1\;\)}
+\begin{center}
+\begin{forest}
+[Exp
+  [Exp
+    [Exp1
+      [Exp2
+        [Integer
+          [\tterm{2}]
+        ]
+      ]
+    ]
+  ]
+  [\tterm{+}]
+  [Exp1
+    [Exp2
+      [Integer
+        [\tterm{1}]
+      ]
+    ]
+  ]
+]
+\end{forest}
+\end{center}
+
+\subsubsection{String: \(\;1+2*3\;\)}
+\begin{center}
+\begin{forest}
+[Exp
+  [Exp
+    [Exp1
+      [Exp2
+        [Integer
+          [\tterm{1}]
+        ]
+      ]
+    ]
+  ]
+  [\tterm{+}]
+  [Exp1
+    [Exp1
+      [Exp2
+        [Integer
+          [\tterm{2}]
+        ]
+      ]
+    ]
+    [\tterm{*}]
+    [Exp2
+      [Integer
+        [\tterm{3}]
+      ]
+    ]
+  ]
+]
+\end{forest}
+\end{center}
+
+\subsubsection{String: \(\;1+(2*3)\;\)}
+\begin{center}
+\begin{forest}
+[Exp
+  [Exp
+    [Exp1
+      [Exp2
+        [Integer
+          [\tterm{1}]
+        ]
+      ]
+    ]
+  ]
+  [\tterm{+}]
+  [Exp1
+    [Exp2
+      [\tterm{(}]
+      [Exp
+        [Exp1
+          [Exp1
+            [Exp2
+              [Integer
+                [\tterm{2}]
+              ]
+            ]
+          ]
+          [\tterm{*}]
+          [Exp2
+            [Integer
+              [\tterm{3}]
+            ]
+          ]
+        ]
+      ]
+      [\tterm{)}]
+    ]
+  ]
+]
+\end{forest}
+\end{center}
+
+\subsubsection{String: \(\;(1+2)*3\;\)}
+\begin{center}
+\begin{forest}
+[Exp
+  [Exp1
+    [Exp1
+      [Exp2
+        [\tterm{(}]
+        [Exp
+          [Exp
+            [Exp1
+              [Exp2
+                [Integer
+                  [\tterm{1}]
+                ]
+              ]
+            ]
+          ]
+          [\tterm{+}]
+          [Exp1
+            [Exp2
+              [Integer
+                [\tterm{2}]
+              ]
+            ]
+          ]
+        ]
+        [\tterm{)}]
+      ]
+    ]
+    [\tterm{*}]
+    [Exp2
+      [Integer
+        [\tterm{3}]
+      ]
+    ]
+  ]
+]
+\end{forest}
+\end{center}
+
+\subsubsection{String: \(\;1+2*3+4*5+6\;\)}
+\begin{center}
+\begin{forest}
+[Exp
+  [Exp
+    [Exp
+      [Exp
+        [Exp1
+          [Exp2
+            [Integer
+              [\tterm{1}]
+            ]
+          ]
+        ]
+      ]
+      [\tterm{+}]
+      [Exp1
+        [Exp1
+          [Exp2
+            [Integer
+              [\tterm{2}]
+            ]
+          ]
+        ]
+        [\tterm{*}]
+        [Exp2
+          [Integer
+            [\tterm{3}]
+          ]
+        ]
+      ]
+    ]
+    [\tterm{+}]
+    [Exp1
+      [Exp1
+        [Exp2
+          [Integer
+            [\tterm{4}]
+          ]
+        ]
+      ]
+      [\tterm{*}]
+      [Exp2
+        [Integer
+          [\tterm{5}]
+        ]
+      ]
+    ]
+  ]
+  [\tterm{+}]
+  [Exp1
+    [Exp2
+      [Integer
+        [\tterm{6}]
+      ]
+    ]
+  ]
+]
+\end{forest}
+\end{center}
 
 \section{Essay}
 
