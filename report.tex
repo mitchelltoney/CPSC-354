@@ -618,7 +618,7 @@ E_0
 
 \textbf{Result:} \texttt{fact 3 = 6}
 
-\subsection{Week 7: Parse Trees Exercise}
+\subsection{Week 7: HW 7 - Parse Trees Exercise}
 
 \subsubsection{String: \(\;2+1\;\)}
 \begin{center}
@@ -820,6 +820,76 @@ E_0
 ]
 \end{forest}
 \end{center}
+
+\subsection{Week 8: HW 8}
+
+\subsubsection{Exercise 1}
+
+Level 5:
+
+$a+(b+0)+(c+0)=a+b+c$
+\begin{verbatim}
+rw [add_zero]
+rw [add_zero]
+rfl
+\end{verbatim}
+
+Level 6:
+
+$a+(b+0)+(c+0)=a+b+c$
+\begin{verbatim}
+rw [add_zero c]
+rw [add_zero b]
+rfl
+\end{verbatim}
+
+Level 7:
+
+$succ n = n + 1$
+\begin{verbatim}
+rw [one_eq_succ_zero]
+rw [add_succ]
+rw[add_zero]
+rfl
+\end{verbatim}
+
+Level 8:
+
+$2+2=4$
+\begin{verbatim}
+rw [two_eq_succ_one]
+rw [four_eq_succ_three]
+rw [three_eq_succ_two]
+rw [two_eq_succ_one]
+rw [one_eq_succ_zero]
+rw [add_succ]
+rw [add_succ]
+rw [add_zero]
+rfl
+\end{verbatim}
+
+Level 7 Natural Language Proof:
+
+\[
+\operatorname{succ} n = n + 1
+\]
+
+Replace $1$ by $\operatorname{succ} 0$:
+\[
+\operatorname{succ} n = n + \operatorname{succ} 0
+\]
+
+Use the definition of addition with a successor:
+\[
+\operatorname{succ} n = \operatorname{succ}(n + 0)
+\]
+
+Simplify $n + 0$ to $n$:
+\[
+\operatorname{succ} n = \operatorname{succ} n
+\]
+
+Both sides are identical, so the equality holds.
 
 \section{Essay}
 
