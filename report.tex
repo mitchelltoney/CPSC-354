@@ -954,6 +954,76 @@ a+b+(d+1)
 \]
 Thus $a+b+c=a+c+b$ for all $c\in\mathbb{N}$.
 
+\subsection{Week 10: HW 10}
+
+\subsubsection{Level 6: Curry}
+
+Objects:
+$C, D, S: \text{Prop}$
+
+Assumptions:
+$h: C \land D \to S$
+
+\textbf{Goal:}
+
+$C \to D \to S$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) c d => h (and_intro c d)
+\end{lstlisting}
+
+\subsubsection{Level 7: Un-Curry}
+
+Objects:
+$C, D, S: \text{Prop}$
+
+Assumptions:
+$h: C \to D \to S$
+
+\textbf{Goal:}
+
+$C \land D \to S$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) cd => h (and_left cd) (and_right cd)
+\end{lstlisting}
+
+\subsubsection{Level 8: Go buy chips and dip!}
+
+Objects:
+$C, D, S: \text{Prop}$
+
+Assumptions:
+$h: (S \to C) \land (S \to D)$
+
+\textbf{Goal:}
+
+$S \to C \land D$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) s => and_intro (and_left h s) (and_right h s)
+\end{lstlisting}
+
+\subsubsection{Level 9: Uncertain Snacks}
+
+Objects:
+$R, S: \text{Prop}$
+
+\textbf{Goal:}
+
+$R \to (S \to R) \land (\neg S \to R)$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) r => and_intro ((*$\lambda$*) s => r) ((*$\lambda$*) _ => r)
+\end{lstlisting}
+
+\textbf{Question:}
+Does currying versus uncurrying ever change definitional equality enough to affect the rewrites from the homework?
+
 \section{Essay}
 
 \section{Evidence of Participation}
