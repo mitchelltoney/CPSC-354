@@ -970,7 +970,7 @@ $C \to D \to S$
 
 \textbf{Solution:}
 \begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
-exact (*$\lambda$*) c d => h (and_intro c d)
+exact (*$\lambda$*) c d (*$\mapsto$*) h (and_intro c d)
 \end{lstlisting}
 
 \subsubsection{Level 7: Un-Curry}
@@ -987,7 +987,7 @@ $C \land D \to S$
 
 \textbf{Solution:}
 \begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
-exact (*$\lambda$*) cd => h (and_left cd) (and_right cd)
+exact (*$\lambda$*) cd (*$\mapsto$*) h (and_left cd) (and_right cd)
 \end{lstlisting}
 
 \subsubsection{Level 8: Go buy chips and dip!}
@@ -1004,7 +1004,7 @@ $S \to C \land D$
 
 \textbf{Solution:}
 \begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
-exact (*$\lambda$*) s => and_intro (and_left h s) (and_right h s)
+exact (*$\lambda$*) s (*$\mapsto$*) and_intro (and_left h s) (and_right h s)
 \end{lstlisting}
 
 \subsubsection{Level 9: Uncertain Snacks}
@@ -1018,11 +1018,81 @@ $R \to (S \to R) \land (\neg S \to R)$
 
 \textbf{Solution:}
 \begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
-exact (*$\lambda$*) r => and_intro ((*$\lambda$*) s => r) ((*$\lambda$*) _ => r)
+exact (*$\lambda$*) r (*$\mapsto$*) and_intro ((*$\lambda$*) s (*$\mapsto$*) r) ((*$\lambda$*) _ (*$\mapsto$*) r)
 \end{lstlisting}
 
 \textbf{Question:}
 Does currying versus uncurrying ever change definitional equality enough to affect the rewrites from the homework?
+
+\subsection{Week 11: HW 11}
+
+\subsubsection{Level 9: Allergy \#1}
+
+Objects:
+$P, A: \text{Prop}$
+
+Assumptions:
+$h: P \to \neg A$
+
+\textbf{Goal:}
+
+$\neg(P \land A)$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) pa : P (*$\land$*) A (*$\mapsto$*) h pa.left pa.right
+\end{lstlisting}
+
+\subsubsection{Level 10: Allergy \#2}
+
+Objects:
+$P, A: \text{Prop}$
+
+Assumptions:
+$h: \neg(P \land A)$
+
+\textbf{Goal:}
+
+$P \to \neg A$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) p : P (*$\mapsto$*) (*$\lambda$*) a : A (*$\mapsto$*) h (and_intro p a)
+\end{lstlisting}
+
+\subsubsection{Level 11: Allergy: Triple Confusion}
+
+Objects:
+$A: \text{Prop}$
+
+Assumptions:
+$h: \neg\neg\neg A$
+
+\textbf{Goal:}
+
+$\neg A$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) a : A (*$\mapsto$*) h ((*$\lambda$*) na : (*$\neg$*)A (*$\mapsto$*) na a)
+\end{lstlisting}
+
+\subsubsection{Level 12}
+
+Objects:
+$B, C: \text{Prop}$
+
+Assumptions:
+$h: \neg(B \to C)$
+
+\textbf{Goal:}
+
+$\neg\neg B$
+
+\textbf{Solution:}
+\begin{lstlisting}[escapeinside={(*}{*)},language=haskell]
+exact (*$\lambda$*) nb (*$\mapsto$*) h (nb (*$\gg$*) false_elim)
+\end{lstlisting}
 
 \section{Essay}
 
