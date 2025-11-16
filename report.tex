@@ -1094,6 +1094,108 @@ $\neg\neg B$
 exact (*$\lambda$*) nb (*$\mapsto$*) h (nb (*$\gg$*) false_elim)
 \end{lstlisting}
 
+\textbf{Question:}
+How would the allergy scenario look different if explosion was rejected?
+
+\subsection{Week 12: HW 12}
+
+\subsubsection{Completed execution}
+
+Execution for \texttt{hanoi 5 0 2}:
+
+\begin{verbatim}
+hanoi 5 0 2
+    hanoi 4 0 1
+        hanoi 3 0 2
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+            move 0 2
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+        move 0 1
+        hanoi 3 2 1
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+            move 2 1
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+    move 0 2
+    hanoi 4 1 2
+        hanoi 3 1 0
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+            move 1 0
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+        move 1 2
+        hanoi 3 0 2
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+            move 0 2
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+\end{verbatim}
+
+\subsubsection{Successful Moves}
+
+The sequence of moves for solving the Tower of Hanoi with 5 disks from peg 0 to peg 2:
+
+\begin{verbatim}
+0 → 2
+0 → 1
+2 → 1
+0 → 2
+1 → 0
+1 → 2
+0 → 2
+0 → 1
+2 → 1
+2 → 0
+1 → 0
+2 → 1
+0 → 2
+0 → 1
+2 → 1
+0 → 2
+1 → 0
+1 → 2
+0 → 2
+1 → 0
+2 → 1
+2 → 0
+1 → 0
+1 → 2
+0 → 2
+0 → 1
+2 → 1
+0 → 2
+1 → 0
+1 → 2
+0 → 2
+\end{verbatim}
+
+\subsubsection{Verification of Moves}
+
+The moves listed above were tested on the Tower of Hanoi simulation website and confirmed to successfully find the solution for moving 5 disks from peg 0 to peg 2.
+
+\textbf{Question:}
+Would the Tower of Hanoi problem still have a recursive definition if there were infinitely many disks?
 \section{Essay}
 
 \section{Evidence of Participation}
