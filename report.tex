@@ -1190,12 +1190,189 @@ The sequence of moves for solving the Tower of Hanoi with 5 disks from peg 0 to 
 0 → 2
 \end{verbatim}
 
-\subsubsection{Verification of Moves}
+\subsubsection{Verirxefication of Moves}
 
 The moves listed above were tested on the Tower of Hanoi simulation website and confirmed to successfully find the solution for moving 5 disks from peg 0 to peg 2.
 
 \textbf{Question:}
 Would the Tower of Hanoi problem still have a recursive definition if there were infinitely many disks?
+
+\subsection{Week 13: HW 13}
+
+\subsubsection{Exercise 2: Lambda Calculus Interpreter Testing}
+
+Lambda expressions from the lectures on Lambda Calculus and Church Encodings were added to \texttt{test.lc} and tested with the interpreter.
+
+\textbf{Test Results:}
+
+\begin{itemize}
+\item \texttt{a b c d} $\to$ \texttt{(((a b) c) d)} (left associativity confirmed)
+\item \texttt{(a)} $\to$ \texttt{a} (parentheses reduction)
+\item \texttt{($\lambda$x.x) a} $\to$ \texttt{a} (beta-reduction working correctly)
+\item HW5 example: \texttt{($\lambda$f.$\lambda$x.f(f(x))) ($\lambda$f.$\lambda$x.(f(f(f x))))} evaluates correctly
+\end{itemize}
+
+All tests confirmed the interpreter conforms to lambda calculus operational semantics.
+
+\subsubsection{Exercise 3: Capture-Avoiding Substitution}
+
+Investigation of capture-avoiding substitution through test cases and source code analysis.
+
+\textbf{Implementation:}
+
+The \texttt{substitute} function (lines 70-87) handles capture-avoidance by generating fresh variable names when substituting into lambda abstractions. When substituting into \texttt{$\lambda$y.e} where the bound variable differs from the substitution target, the implementation:
+\begin{itemize}
+\item Generates a fresh name (Var1, Var2, etc.) via \texttt{NameGenerator}
+\item Alpha-renames the lambda abstraction
+\item Performs substitution in the renamed body
+\end{itemize}
+
+\textbf{Test Case:}
+
+\texttt{($\lambda$y.x) [y/x]} $\to$ \texttt{($\lambda$Var1.y)} demonstrates that the free variable \texttt{x} is replaced by \texttt{y}, while the lambda is renamed to \texttt{Var1} to avoid variable capture. If the bound variable matches the substitution target, no substitution occurs (lines 78-79), preserving the binding.
+
+\subsubsection{Exercise 4: Normal Form Reduction}
+
+Investigation of whether all computations reduce to normal form.
+
+\textbf{Findings:}
+
+Not all computations reduce to normal form. The omega combinator \texttt{($\lambda$x.x x) ($\lambda$x.x x)} causes infinite recursion (RecursionError), demonstrating that non-terminating expressions exist.
+
+\textbf{Evaluation Strategy:}
+
+The interpreter uses call-by-name evaluation (lines 37-53): it evaluates the left side of applications first, then substitutes without evaluating arguments. 
+
+\begin{itemize}
+\item Terminating expressions reach normal form
+\item Non-terminating expressions loop indefinitely
+\item Expressions already in normal form (e.g., \texttt{x y} where variables are free) remain unchanged
+\end{itemize}
+
+\subsubsection{Exercise 5: Minimal Non-Terminating Expression}
+
+Search for the smallest lambda expression that does not reduce to normal form.
+
+\textbf{Minimal Working Example:}
+
+The omega combinator \texttt{($\lambda$x.x x) ($\lambda$x.x x)} is the minimal non-terminating expression. 
+
+\textbf{Analysis:}
+
+\begin{itemize}
+\item Smaller expressions like \texttt{x}, \texttt{$\lambda$x.x}, \texttt{x x}, or \texttt{$\lambda$x.x x} are all in normal form and terminate
+\item The omega combinator applies a self-applicative lambda \texttt{$\lambda$x.x x} to itself
+\item When evaluated: \texttt{($\lambda$x.x x) ($\lambda$x.x x)} $\to$ substitute \texttt{($\lambda$x.x x)} for \texttt{x} in \texttt{x x} $\to$ \texttt{($\lambda$x.x x) ($\lambda$x.x x)} again, creating infinite recursion
+\end{itemize}
+
+This is minimal because it requires both a self-applicative lambda and applying that lambda to itself, which is exactly what the omega combinator provides.
+
+\subsubsection{Exercise 7: Step-by-Step Evaluation Trace}
+
+Tracing the evaluation of \texttt{((\textbackslash m.\textbackslash n. m n) (\textbackslash f.\textbackslash x. f (f x))) (\textbackslash f.\textbackslash x. f (f (f x)))} following the interpreter's exact steps.
+
+\textbf{Evaluation Trace:}
+
+\begin{enumerate}
+\item \texttt{((\textbackslash m.\textbackslash n. m n) (\textbackslash f.\textbackslash x. f (f x))) (\textbackslash f.\textbackslash x. f (f (f x)))}
+
+\item \texttt{((\textbackslash Var1. (\textbackslash f.\textbackslash x. f (f x)) Var1)) (\textbackslash f.\textbackslash x. f (f (f x)))}
+\begin{itemize}
+\item Substituting \texttt{(\textbackslash f.\textbackslash x. f (f x))} for \texttt{m} in \texttt{(\textbackslash n. m n)}
+\item The lambda variable \texttt{n} is renamed to \texttt{Var1} to avoid capture
+\item Result: \texttt{(\textbackslash Var1. (\textbackslash f.\textbackslash x. f (f x)) Var1)}
+\end{itemize}
+
+\item \texttt{((\textbackslash f.\textbackslash x. f (f x)) (\textbackslash f.\textbackslash x. f (f (f x))))}
+\begin{itemize}
+\item Substituting \texttt{(\textbackslash f.\textbackslash x. f (f (f x)))} for \texttt{Var1} in \texttt{((\textbackslash f.\textbackslash x. f (f x)) Var1)}
+\item Result: application of Church numeral 2 to Church numeral 3
+\end{itemize}
+
+\item \texttt{(\textbackslash Var5. ((\textbackslash f.\textbackslash x. f (f (f x))) ((\textbackslash f.\textbackslash x. f (f (f x))) Var5)))}
+\begin{itemize}
+\item Evaluating the application: \texttt{(\textbackslash f.\textbackslash x. f (f x)) (\textbackslash f.\textbackslash x. f (f (f x)))}
+\item Substituting Church numeral 3 for \texttt{f} in \texttt{(\textbackslash x. f (f x))}
+\item The lambda variable \texttt{x} is renamed to \texttt{Var5} to avoid capture
+\item Final result: partially applied function (not fully reduced to Church numeral 9)
+\end{itemize}
+\end{enumerate}
+
+\textbf{Observations:}
+
+The interpreter uses call-by-name evaluation, so it doesn't fully reduce nested applications. The result shows a partially evaluated expression rather than the Church numeral 9, demonstrating that the evaluation strategy affects the final form.
+
+\subsubsection{Exercise 8: Recursive Call Trace}
+
+Tracing recursive calls to \texttt{evaluate()} and \texttt{substitute()} for \texttt{((\textbackslash m.\textbackslash n. m n) (\textbackslash f.\textbackslash x. f (f x))) (\textbackslash f.\textbackslash x. f x)} with indentation showing the call stack.
+
+\textbf{Recursive Trace:}
+
+\begin{verbatim}
+37: eval (((\m.(\n.(m n))) (\f.(\x.(f (f x))))) (\f.(\x.(f x))))
+    39: eval ((\m.(\n.(m n))) (\f.(\x.(f (f x)))))
+        39: eval (\m.(\n.(m n)))
+    44: subst (\n.(m n)) [(\f.(\x.(f (f x))))/m]
+        85: subst (m n) [Var1/n]
+            85: subst m [Var1/n]
+            85: subst n [Var1/n]
+        85: subst (m Var1) [(\f.(\x.(f (f x))))/m]
+            85: subst m [(\f.(\x.(f (f x))))/m]
+            85: subst Var1 [(\f.(\x.(f (f x))))/m]
+        39: eval (\Var1.((\f.(\x.(f (f x)))) Var1))
+    44: subst ((\f.(\x.(f (f x)))) Var1) [(\f.(\x.(f x)))/Var1]
+        85: subst (\f.(\x.(f (f x)))) [(\f.(\x.(f x)))/Var1]
+            85: subst (\x.(f (f x))) [Var2/f]
+                85: subst (f (f x)) [Var3/x]
+                    85: subst f [Var3/x]
+                    85: subst (f x) [Var3/x]
+                        85: subst f [Var3/x]
+                        85: subst x [Var3/x]
+                85: subst (f (f Var3)) [Var2/f]
+                    85: subst f [Var2/f]
+                    85: subst (f Var3) [Var2/f]
+                        85: subst f [Var2/f]
+                        85: subst Var3 [Var2/f]
+            85: subst (\Var3.(Var2 (Var2 Var3))) [(\f.(\x.(f x)))/Var1]
+                85: subst (Var2 (Var2 Var3)) [Var4/Var3]
+                    85: subst Var2 [Var4/Var3]
+                    85: subst (Var2 Var3) [Var4/Var3]
+                        85: subst Var2 [Var4/Var3]
+                        85: subst Var3 [Var4/Var3]
+                85: subst (Var2 (Var2 Var4)) [(\f.(\x.(f x)))/Var1]
+                    85: subst Var2 [(\f.(\x.(f x)))/Var1]
+                    85: subst (Var2 Var4) [(\f.(\x.(f x)))/Var1]
+                        85: subst Var2 [(\f.(\x.(f x)))/Var1]
+                        85: subst Var4 [(\f.(\x.(f x)))/Var1]
+        85: subst Var1 [(\f.(\x.(f x)))/Var1]
+    39: eval ((\Var2.(\Var4.(Var2 (Var2 Var4)))) (\f.(\x.(f x))))
+        39: eval (\Var2.(\Var4.(Var2 (Var2 Var4))))
+    44: subst (\Var4.(Var2 (Var2 Var4))) [(\f.(\x.(f x)))/Var2]
+        85: subst (Var2 (Var2 Var4)) [Var5/Var4]
+            85: subst Var2 [Var5/Var4]
+            85: subst (Var2 Var4) [Var5/Var4]
+                85: subst Var2 [Var5/Var4]
+                85: subst Var4 [Var5/Var4]
+        85: subst (Var2 (Var2 Var5)) [(\f.(\x.(f x)))/Var2]
+            85: subst Var2 [(\f.(\x.(f x)))/Var2]
+            85: subst (Var2 Var5) [(\f.(\x.(f x)))/Var2]
+                85: subst Var2 [(\f.(\x.(f x)))/Var2]
+                85: subst Var5 [(\f.(\x.(f x)))/Var2]
+        39: eval (\Var5.((\f.(\x.(f x))) ((\f.(\x.(f x))) Var5)))
+\end{verbatim}
+
+\textbf{Observations:}
+
+\begin{itemize}
+\item Line 37: Entry point to \texttt{evaluate()}
+\item Line 39: Recursive calls to \texttt{evaluate()} for left side and result evaluation
+\item Line 44: Calls to \texttt{substitute()} from \texttt{evaluate()} for beta-reduction
+\item Line 85: Recursive calls to \texttt{substitute()} for applications and nested substitutions
+\item Indentation shows the call stack depth, similar to the Tower of Hanoi trace
+\item The trace demonstrates the nested nature of capture-avoiding substitution, with multiple levels of variable renaming (Var1, Var2, Var3, Var4, Var5)
+\end{itemize}
+\textbf{Question:}
+Are there lambda expressions that have normal forms but no algorithm can find them?
 \section{Essay}
 
 \section{Evidence of Participation}
