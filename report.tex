@@ -105,6 +105,7 @@
 \maketitle
 
 \begin{abstract}
+This report documents coursework from CPSC-354, covering foundational topics in programming languages and computation theory. Topics include abstract rewriting systems, termination proofs, lambda calculus and Church encodings, fixed-point combinators, formal grammars and parse trees, theorem proving in Lean, propositional logic, and interpreter implementation. Each week builds toward understanding how programming languages are formally defined, evaluated, and reasoned about.
 \end{abstract}
 
 \setcounter{tocdepth}{3}
@@ -114,7 +115,7 @@
 
 \section{Week by Week}\label{homework}
 
-\subsection{Week 1: HW1}
+\subsection{Week 1: HW 1 - MU Puzzle}
 The $MU$ puzzle is a puzzle created by Douglas Hofstadter. It consists of four rules that can be applied to a string $MI$.
 \[
 \begin{array}{l}
@@ -130,7 +131,7 @@ The issue with this is that $2^{n}\bmod 3$ will never equal 0, it infinitely cyc
 
 Thus, the puzzle is not solvable.
 
-\subsection{Week 2: HW2}
+\subsection{Week 2: HW 2 - Abstract Rewriting Systems}
 
 
 \begin{center}
@@ -330,7 +331,7 @@ $A=\{a,b,c\},\ R=\{(a,b),(a,c),(b,b),(c,c)\}$
 
 \end{center}
 
-\subsection{Week 3: HW3}
+\subsection{Week 3: HW 3 - ARS Equivalence Classes}
 
 \subsubsection{Exercise 5}
 
@@ -444,7 +445,7 @@ b &\rightarrow
 
 This gives a complete semantics to the ARS: it computes the invariant for any input string.
 
-\subsection{Week 4: HW4}
+\subsection{Week 4: HW 4 - Termination Proofs}
 
 \subsubsection{HW4.1: Termination Proof for GCD}
 
@@ -518,7 +519,7 @@ Second child: $\phi(\text{mid}+1,r)=r-\text{mid}\le r-l=\phi(l,r)-1<\phi(l,r)$.
 
 Every recursive edge strictly decreases $\phi$ in $\mathbb N$, which is well-founded. Thus no infinite recursion is possible; the calls bottom out at states with $\phi\in\{0,1\}$ (i.e., \texttt{left $\geq$ right}), where the function returns. Therefore $\phi(\text{left},\text{right})=\text{right}-\text{left}+1$ is a valid measure and \texttt{merge\_sort} terminates under the stated conditions.
 
-\subsection{Week 5: HW5}
+\subsection{Week 5: HW 5 - Lambda Calculus Evaluation}
 
 \subsubsection{Lambda Calculus Workout Evaluation (Corrected)}
 
@@ -539,7 +540,7 @@ Use $\alpha$-renaming to avoid capture.
 
 Hence the normal form is $\lambda f.\lambda x.\,f^{9}x$ (Church numeral $9$).
 
-\subsection{Week 6: HW6}
+\subsection{Week 6: HW 6 - Fixed Point Combinators}
 
 \subsubsection{Fixed Point Combinator Exercise}
 
@@ -821,7 +822,7 @@ E_0
 \end{forest}
 \end{center}
 
-\subsection{Week 8: HW 8}
+\subsection{Week 8: HW 8 - Lean Proofs}
 
 \subsubsection{Exercise 1}
 
@@ -891,7 +892,7 @@ Simplify $n + 0$ to $n$:
 
 Both sides are identical, so the equality holds.
 
-\subsection{Week 9: HW 9}
+\subsection{Week 9: HW 9 - Induction Proofs}
 
 \subsubsection{No Induction}
 
@@ -954,7 +955,7 @@ a+b+(d+1)
 \]
 Thus $a+b+c=a+c+b$ for all $c\in\mathbb{N}$.
 
-\subsection{Week 10: HW 10}
+\subsection{Week 10: HW 10 - Curry and Uncurry}
 
 \subsubsection{Level 6: Curry}
 
@@ -1024,7 +1025,7 @@ exact (*$\lambda$*) r (*$\mapsto$*) and_intro ((*$\lambda$*) s (*$\mapsto$*) r) 
 \textbf{Question:}
 Does currying versus uncurrying ever change definitional equality enough to affect the rewrites from the homework?
 
-\subsection{Week 11: HW 11}
+\subsection{Week 11: HW 11 - Negation Proofs}
 
 \subsubsection{Level 9: Allergy \#1}
 
@@ -1097,7 +1098,7 @@ exact (*$\lambda$*) nb (*$\mapsto$*) h (nb (*$\gg$*) false_elim)
 \textbf{Question:}
 How would the allergy scenario look different if explosion was rejected?
 
-\subsection{Week 12: HW 12}
+\subsection{Week 12: HW 12 - Tower of Hanoi}
 
 \subsubsection{Completed execution}
 
@@ -1197,7 +1198,7 @@ The moves listed above were tested on the Tower of Hanoi simulation website and 
 \textbf{Question:}
 Would the Tower of Hanoi problem still have a recursive definition if there were infinitely many disks?
 
-\subsection{Week 13: HW 13}
+\subsection{Week 13: HW 13 - Lambda Calculus Interpreter}
 
 \subsubsection{Exercise 2: Lambda Calculus Interpreter Testing}
 
@@ -1372,15 +1373,46 @@ Tracing recursive calls to \texttt{evaluate()} and \texttt{substitute()} for \te
 \item The trace demonstrates the nested nature of capture-avoiding substitution, with multiple levels of variable renaming (Var1, Var2, Var3, Var4, Var5)
 \end{itemize}
 \textbf{Question:}
-Are there lambda expressions that have normal forms but no algorithm can find them?
+
 \section{Essay}
+
+Throughout this course, a central theme has emerged: computation can be understood as the systematic transformation of symbolic expressions according to formal rules. This essay synthesizes the key concepts explored across the semester, showing how abstract rewriting systems, lambda calculus, formal proofs, and interpreter implementation connect to form a unified understanding of programming languages.
+
+The course began with the MU puzzle, introducing the idea that computation is rule-based transformation. The puzzle's unsolvability demonstrated that not all goals are reachable within a formal system---a lesson that reappears throughout programming language theory. Abstract rewriting systems formalized this intuition, introducing termination, confluence, and normal forms. These properties determine whether a computation halts, produces consistent results, and what the final answer looks like.
+
+Lambda calculus emerged as the theoretical core of the course. Unlike the concrete rewrite rules of the MU puzzle, lambda calculus provides a universal model of computation using only variables, abstraction, and application. Church encodings represent numbers through function composition, and beta-reduction alone suffices to compute any computable function. Fixed-point combinators extended this to recursion: the \texttt{fix} combinator enables self-reference without explicit naming, allowing definitions like factorial to unfold through substitution alone.
+
+The interpreter project bridged theory and practice. Implementing a lambda calculus interpreter required translating beta-reduction into working code, with capture-avoiding substitution as the key challenge. The tracing exercises made evaluation visible, revealing the tree-like structure of computation---similar to the Tower of Hanoi traces. Both examples illustrated how recursive definitions decompose problems into smaller subproblems.
+
+The Lean proof exercises connected logic to programming through the Curry-Howard correspondence, where propositions correspond to types and proofs correspond to programs. Induction proofs mirrored termination arguments: just as termination requires a decreasing measure, induction requires showing a property holds for successors given it holds for predecessors.
+
+Several unifying principles emerge: substitution is fundamental to all computation; termination requires careful design to avoid unbounded self-reference; abstraction enables generality; and syntax and semantics, though distinct, are connected through interpretation. This course has shown that programming languages rest on precise mathematical foundations, enabling us not just to write code that works, but to understand \emph{why} it works.
 
 \section{Evidence of Participation}
 
+\textbf{Discord Seminar Posts:}
+\begin{itemize}
+\item Programming Paradigms - Computerphile
+\item The Elegant Math Behind Machine Learning
+\end{itemize}
+
 \section{Conclusion}\label{conclusion}
 
+Stepping back from the technical details, this course has reshaped how I think about programming and software engineering. Before taking CPSC-354, I viewed programming languages as tools---each with its own syntax to memorize and quirks to work around. Now I see them as designed artifacts built on mathematical foundations, with deliberate choices about evaluation strategy, type systems, and abstraction mechanisms that profoundly shape how we write and reason about code.
+
+In the wider world of software engineering, these foundations matter more than they might first appear. Understanding termination and confluence helps when debugging infinite loops or reasoning about concurrent systems. Recognizing that parsing is grammar-driven explains why IDEs can catch syntax errors instantly and why language design involves careful attention to ambiguity. The Curry-Howard correspondence reveals that type systems are not just error-catching mechanisms but lightweight proof systems---a perspective that makes sense of why languages like Rust and TypeScript invest so heavily in expressive types. Even the lambda calculus, which can seem abstract, underlies the functional programming features now standard in JavaScript, Python, and Java.
+
+The most valuable aspect of the course was the interpreter project. Building a working lambda calculus interpreter transformed abstract reduction rules into something tangible. Debugging capture-avoiding substitution forced me to truly understand alpha-renaming rather than just accepting it as a definition. The tracing exercises were similarly illuminating: watching the call stack grow and shrink made recursion concrete in a way that textbook examples never quite achieved. The Tower of Hanoi traces and the interpreter traces felt like two views of the same underlying phenomenon---recursive decomposition---and that connection was satisfying to discover.
+
+The Lean proof exercises were initially frustrating but ultimately rewarding. Learning to think in terms of rewriting and induction felt like acquiring a new mental tool. However, the learning curve was steep, and more scaffolding in early exercises would help. I would suggest adding intermediate exercises that bridge the gap between simple rewrites and full induction proofs.
+
+One improvement I would suggest is more explicit connections to mainstream languages. The course material is deep and rigorous, but occasionally felt disconnected from practical programming. Brief examples showing how, say, Python's closures relate to lambda abstraction, or how Haskell's laziness connects to evaluation strategy, would help ground the theory.
+
+Overall, this course provided a foundation I expect to draw on throughout my career---not in daily coding, perhaps, but whenever I need to think carefully about what a program means and why it behaves as it does.
+
 \begin{thebibliography}{99}
-\bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
+\bibitem[NNG]{nng} Lean Community, \href{https://adam.math.hhu.de/#/g/leanprover-community/nng4}{Natural Number Game}, Lean Game Server, 2025.
+\bibitem[PL2025]{pl2025} Alexander Kurz, \href{https://codeberg.org/alexhkurz/programming-languages-2025/src/branch/main}{Principles of Programming Languages (CPSC 354)}, Chapman University, 2025.
 \end{thebibliography}
 
 \end{document}
